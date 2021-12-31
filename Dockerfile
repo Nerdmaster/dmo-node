@@ -1,20 +1,18 @@
 FROM ubuntu:bionic AS build
 
-WORKDIR /dynamo
+RUN apt-get update -y && apt-get install -y \
+    build-essential libtool autotools-dev automake pkg-config bsdmainutils \
+    python3 libevent-dev libboost-dev libboost-system-dev \
+    libboost-filesystem-dev libboost-test-dev libdb++-dev git
 
-RUN apt-get update -y
-RUN apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
-RUN apt-get install -y libevent-dev libboost-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libdb++-dev
-RUN apt-get install -y git
-RUN git clone -b v1.0 https://github.com/dynamofoundation/dynamo-core.git
+RUN git clone -b v1.0 https://github.com/dynamofoundation/dynamo-core.git /dynamo/dynamo-core
+
 WORKDIR /dynamo/dynamo-core
-RUN echo "#!/bin/bash" > make-dynamo.sh
-RUN echo "/usr/bin/make " >> make-dynamo.sh
-RUN echo "exit 0" >> make-dynamo.sh
-RUN chmod 755 ./make-dynamo.sh
 RUN ./autogen.sh
 RUN ./configure --with-incompatible-bdb
-RUN ./make-dynamo.sh || echo "failed!"
+
+# The makefile fails, but the binaries we need get built - wtf?
+RUN make || true
 
 FROM ubuntu:bionic AS production
 
