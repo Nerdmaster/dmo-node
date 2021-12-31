@@ -1,70 +1,18 @@
 version: '3.8'
+
+volumes:
+  node:
+
 services:
   node:
     image: dynamo-node:v1.0
     container_name: dynamo-node
     build:
       dockerfile: Dockerfile
-      context: ./node
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-    ports:
-    - '6432:6432'
-    - '6433:6433'
+      context: .
     environment:
-      - NODE_HOST=node
-      - NODE_RPCPORT=6432
-      - NODE_SRVPORT=6433
+      - NODE_HOST
+      - NODE_RPCPORT
+      - NODE_SRVPORT
     volumes:
-      - /var/tmp/dynamo/:/root/.dynamo/
-  bridge:
-    image: dynamo-bridge:v1.0
-    container_name: dynamo-bridge
-    restart: always
-    build: 
-      dockerfile: Dockerfile
-      context: ./bridge
-    deploy:
-      resources:
-        limits:
-          memory: 6G
-    environment:
-      - NODE_HOST=node
-      - NODE_RPCPORT=6432
-    depends_on:
-      - node 
-  web:
-    image: dynamo-web:v1.0
-    container_name: dynamo-web
-    restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./web
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-    ports:
-      - '80:80'
-    environment:
-      - BRIDGE_HOST=bridge
-      - NODE_HOST=node
-      - NODE_RPCPORT=6432
-      - NODE_SRVPORT=6433
-    depends_on:
-      - bridge 
-      - php
-  php:
-    image: dynamo-php:v1.0
-    container_name: dynamo-php
-    restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./php
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-
+      - node:/root/.dynamo/

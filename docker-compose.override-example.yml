@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  node:
+    ports:
+      - '6432:6432'
+      - '6433:6433'
+    environment:
+      - NODE_HOST=node
+      - NODE_RPCPORT=6432
+      - NODE_SRVPORT=6433
