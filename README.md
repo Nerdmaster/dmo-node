@@ -1,5 +1,11 @@
 # DMO-Node
 
+This is a blatant ripoff of the
+[Official Docker Node](https://github.com/dynamofoundation/docker-node) DMO
+project. This was created to provide a much smaller option for node-only
+deployments. And it's basically built for me, so it may or may not work for
+others, though I will try to make improvements.
+
 This project aims to be a very simple one-step setup for running just the DMO
 node and nothing else. The docker image will be pushed to docker hub for others
 to easily use on minimal hardware.
