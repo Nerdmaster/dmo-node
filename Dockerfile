@@ -16,17 +16,27 @@ RUN make || true
 
 FROM ubuntu:bionic AS production
 
+# Stolen from mariadb dockerfile: add our user and group first to make sure
+# their IDs get assigned consistently
+RUN groupadd -r dmo && useradd -r -g dmo dmo
+
 EXPOSE 6432 6433
 
 RUN apt-get update -y && apt-get install -y \
   libevent-dev libboost-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libdb++-dev && \
   apt-get autoremove -y && \
   apt-get clean && rm -rf /var/lib/apt/lists/* 
-RUN mkdir ~/.dynamo
-WORKDIR /dynamo/dynamo-core
+
+WORKDIR /dynamo
 COPY --from=build /dynamo/dynamo-core/src/bitcoind /bin/dynamo-core
 COPY --from=build /dynamo/dynamo-core/src/bitcoin-cli /bin/dynamo-cli
 COPY get-info.sh /bin/ 
+COPY dynamo.conf /dynamo/dynamo.conf
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+RUN mkdir -p /dynamo/data
+RUN chown -R dmo:dmo /dynamo
+VOLUME /dynamo/data
 
-CMD ["dynamo-core"]
-
+USER dmo
+ENTRYPOINT ["/entrypoint.sh"]

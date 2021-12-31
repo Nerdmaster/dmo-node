@@ -2,10 +2,11 @@ version: '3.8'
 
 services:
   node:
+    # You have to expose 6432 to get incoming connections. You probably
+    # shouldn't expose 6433 to anything but localhost.
     ports:
       - '6432:6432'
       - '6433:6433'
     environment:
-      - NODE_HOST=node
-      - NODE_RPCPORT=6432
-      - NODE_SRVPORT=6433
+      - RPC_USER=user
+      - RPC_PASS=123456

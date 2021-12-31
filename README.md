@@ -15,7 +15,24 @@ There's a docker-compose file to simplify building it, and an example
 environment. As those can vary depending on where one runs the node, they
 aren't kept in the original docker-compose file.
 
-Usage: typical docker commands. `docker-compose pull`, `docker-compose up`,
-etc. To build the node (instead of pulling it from dockerhub), a simple
-`docker-compose build` should suffice, but be warned it can be very
-resource-intensive (a small VPS may not work).
+## Usage
+
+Typical docker stuff:
+
+- Consider copying `docker-compose.override-example.yml` to a local
+  `docker-compose.override.yml` file so you can customize it for your
+  environment (particularly the RPC user / pass)
+- `docker-compose pull` will pull the latest node image from dockerhub
+- `docker-compose build` will build a local node for you, but this will take
+  several minutes, and is very resource-intensive (a small VPS cannot compile
+  the app since it needs a ton of RAM)
+
+Make sure you expose port 6432 to the world if you want incoming connections.
+This means using the `ports` directive in your override, and may require
+firewall changes as well.
+
+Do **not** expose port 6433 to anything you don't implicitly trust. Even with a
+strong RPC user / password combo this can be risky if you don't know what
+you're doing. For instance, it's fine to exposing 6433 using firewall rules to
+only allow your IP address in, the use this node to mine. But if you mess up
+those firewall rules and somebody spams your node... well, ye be warned.
