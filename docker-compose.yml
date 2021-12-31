@@ -5,7 +5,7 @@ volumes:
 
 services:
   node:
-    image: dynamo-node:v1.0
+    image: nerdmaster/dmo-node
     container_name: dynamo-node
     build:
       dockerfile: Dockerfile
