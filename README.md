@@ -36,3 +36,13 @@ strong RPC user / password combo this can be risky if you don't know what
 you're doing. For instance, it's fine to exposing 6433 using firewall rules to
 only allow your IP address in, the use this node to mine. But if you mess up
 those firewall rules and somebody spams your node... well, ye be warned.
+
+# Using the Command-Line Interface
+
+The container has a handy script for CLI access. Once you have a container up
+and running, simply run your commands within the running container, e.g.:
+
+```
+docker-compose exec node cli -getinfo
+docker-compose exec node cli getpeerinfo
+```

@@ -1,0 +1,2 @@
+#!/bin/bash
+/bin/dynamo-cli "-rpcuser=$RPC_USER" "-rpcpassword=$RPC_PASS" "-datadir=/dynamo/data" "-conf=/dynamo/dynamo.conf" "$@"

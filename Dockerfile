@@ -30,7 +30,8 @@ RUN apt-get update -y && apt-get install -y \
 WORKDIR /dynamo
 COPY --from=build /dynamo/dynamo-core/src/bitcoind /bin/dynamo-core
 COPY --from=build /dynamo/dynamo-core/src/bitcoin-cli /bin/dynamo-cli
-COPY get-info.sh /bin/ 
+COPY cli /bin/ 
+RUN chmod +x /bin/cli
 COPY dynamo.conf /dynamo/dynamo.conf
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
