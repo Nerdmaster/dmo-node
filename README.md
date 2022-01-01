@@ -33,9 +33,10 @@ firewall changes as well.
 
 Do **not** expose port 6433 to anything you don't implicitly trust. Even with a
 strong RPC user / password combo this can be risky if you don't know what
-you're doing. For instance, it's fine to exposing 6433 using firewall rules to
-only allow your IP address in, the use this node to mine. But if you mess up
-those firewall rules and somebody spams your node... well, ye be warned.
+you're doing. For instance, it's fine to expose 6433, then use firewall rules
+to only allow your IP address in -- this could allow you to use this node for
+mining from external systems. But if you mess up those firewall rules and
+somebody spams your node... well, ye be warned.
 
 # Using the Command-Line Interface
 
