@@ -49,9 +49,12 @@ docker-compose exec node cli getpeerinfo
 
 ## Install as a systemd service
 
-This assumes your repo lives in `opt/dmo-node`. If it doesn't, you'll need to
+This assumes your repo lives in `/opt/dmo-node`. If it doesn't, you'll need to
 either move it there or alter the service file. The former is probably easiest
 to keep consistent with this repo.
 
 Install the service unit: `systemctl enable $(pwd)/dmo-node.service`. Then
 simply start it: `systemctl start dmo-node`. Easy!
+
+You can interact with the docker container as normal, though to start and stop
+it you should stick to `systemctl` commands.
