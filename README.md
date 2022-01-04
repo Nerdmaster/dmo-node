@@ -38,7 +38,7 @@ to only allow your IP address in -- this could allow you to use this node for
 mining from external systems. But if you mess up those firewall rules and
 somebody spams your node... well, ye be warned.
 
-# Using the Command-Line Interface
+## Using the Command-Line Interface
 
 The container has a handy script for CLI access. Once you have a container up
 and running, simply run your commands within the running container, e.g.:
