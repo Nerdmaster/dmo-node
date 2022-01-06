@@ -5,7 +5,7 @@ RUN apt-get update -y && apt-get install -y \
     python3 libevent-dev libboost-dev libboost-system-dev \
     libboost-filesystem-dev libboost-test-dev libdb++-dev git
 
-RUN git clone -b v1.0 https://github.com/dynamofoundation/dynamo-core.git /dynamo/dynamo-core
+RUN git clone -b v1.1-rc1 https://github.com/dynamofoundation/dynamo-core.git /dynamo/dynamo-core
 
 WORKDIR /dynamo/dynamo-core
 RUN ./autogen.sh
@@ -30,6 +30,7 @@ RUN apt-get update -y && apt-get install -y \
 WORKDIR /dynamo
 COPY --from=build /dynamo/dynamo-core/src/bitcoind /bin/dynamo-core
 COPY --from=build /dynamo/dynamo-core/src/bitcoin-cli /bin/dynamo-cli
+COPY --from=build /dynamo/dynamo-core/build_msvc/bitcoind/hash_algo.txt /dynamo/hash_algo.txt
 COPY cli /bin/ 
 RUN chmod +x /bin/cli
 COPY dynamo.conf /dynamo/dynamo.conf
