@@ -31,6 +31,21 @@ Make sure you expose port 6432 to the world if you want incoming connections.
 This means using the `ports` directive in your override, and may require
 firewall changes as well.
 
+Need to run subcommands / flags of the node command? You can't (easily) just
+run the node command because the docker image is set up in a more secure (read:
+harder to deal with) way. So there's an entrypoint that tries to be helpful -
+instead of running a command inside the running container, you do a
+`docker-compose run` with whatever flags you need:
+
+```bash
+docker-compose run --rm node -help
+docker-compose run --rm node -reindex
+```
+
+And so forth. The container prefixes your flagged command with "dynamo-core",
+and adds various flags to make sure the data dir, config file, etc. are all set
+properly.
+
 ## Security
 
 Do **not** expose port 6433 to anything you don't implicitly trust. Even with a
