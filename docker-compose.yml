@@ -5,7 +5,7 @@ volumes:
 
 services:
   node:
-    image: nerdmaster/dmo-node
+    image: nerdmaster/dmo-node:unstable
     container_name: dynamo-node
     build:
       dockerfile: Dockerfile
