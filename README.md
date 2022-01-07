@@ -40,6 +40,7 @@ instead of running a command inside the running container, you do a
 ```bash
 docker-compose run --rm node -help
 docker-compose run --rm node -reindex
+docker-compose run --rm node -printtoconsole=0
 ```
 
 And so forth. The container prefixes your flagged command with "dynamo-core",
@@ -89,22 +90,40 @@ it you should stick to `systemctl` commands.
 
 ## Hardware Needs
 
-This node *can* run on a very low-end VPS, though you will likely need to be a
+This node *can* run on a low-end VPS, though you will likely need to be a
 decent sysadmin to do so. You'll have to make sure you manage things like
 docker logs, disk usage, etc.
 
 A "low-end" VPS looks a bit like this:
 
 - 1 vCPU
-- 1GB RAM
-- 25GB Disk
-- 1TB bandwidth per month
+- 2GB RAM
+- 50GB Disk
+- 2TB bandwidth per month
 
-The CPU seems to be pretty idle after initial sync. RAM usage, so long as you
-don't try to *build* your image on the VPS, stays below 600MB, and the server
-seems okay to share it with other applications.
+### CPU
 
-Disk and bandwidth, however, may be problems.
+The CPU seems to be pretty idle after initial sync. No real problems here, and
+you can even run CPU-heavy operations without anything negative as far as I can
+tell.
+
+### RAM
+
+RAM usage may be a problem if you run other processes. v1.0 of the node was
+able to run for several days on a 1GB linode with other processes running
+alongside it. Unfortunately, node v1.1 can't. It seems to need a full gig of
+RAM all to itself.
+
+While syncing, RAM seems to just continually rise. After the full sync, my node
+was using over a gig of RAM. I stopped and restarted it, and it's settled back
+to about 670MB. I suspect there's some small memory leak that is only a problem
+when processing a huge number of blocks.
+
+There's an example in the `docker-compose.override-example.yml` file that can
+help reduce RAM. By using the `printtoconsole=0` flag, journald and
+docker-compose use a good deal less RAM. This comes at the cost of losing *all*
+logging, however, so it's probably a good idea to use this flag only if you're
+certain you absolutely need it.
 
 ### Disk
 

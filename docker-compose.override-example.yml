@@ -10,3 +10,7 @@ services:
     environment:
       - RPC_USER=user
       - RPC_PASS=123456
+    # Uncomment this if you're on a really low-end server and need journald and
+    # docker-compose to use as little RAM as possible. Note that you'll have
+    # *no* logs for debugging anything.
+    #command: "-printtoconsole=0"
