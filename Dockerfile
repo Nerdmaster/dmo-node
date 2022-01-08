@@ -11,8 +11,10 @@ WORKDIR /dynamo/dynamo-core
 RUN ./autogen.sh
 RUN ./configure --with-incompatible-bdb
 
-# The makefile fails, but the binaries we need get built - wtf?
-RUN make || true
+# Only compile the necessary binaries to avoid the "make" wasting time and then
+# failing anyway
+RUN make src/bitcoind
+RUN make src/bitcoin-cli
 
 FROM ubuntu:bionic AS production
 
