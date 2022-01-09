@@ -8,6 +8,8 @@ RUN apt-get update -y && apt-get install -y \
 RUN git clone -b v1.1 https://github.com/dynamofoundation/dynamo-core.git /dynamo/dynamo-core
 
 WORKDIR /dynamo/dynamo-core
+ARG IS_TESTNET=false
+RUN find . -name "*.cpp" | xargs sed -i "s|IS_TESTNET\s*=\s*false;|IS_TESTNET=$IS_TESTNET;|"
 RUN ./autogen.sh
 RUN ./configure --with-incompatible-bdb
 

@@ -2,16 +2,35 @@ version: '3.8'
 
 volumes:
   node:
+  testnet:
 
 services:
+  # Mainnet node
   node:
     image: nerdmaster/dmo-node:unstable
     container_name: dynamo-node
     build:
       dockerfile: Dockerfile
       context: .
+      args:
+        - IS_TESTNET=false
     environment:
       - RPC_USER
       - RPC_PASS
     volumes:
       - node:/dynamo/data:rw
+
+  # Testnet, with a separate data volume
+  testnet:
+    image: nerdmaster/dmo-node:testnet
+    container_name: dynamo-testnet-node
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        - IS_TESTNET=true
+    environment:
+      - RPC_USER
+      - RPC_PASS
+    volumes:
+      - testnet:/dynamo/data:rw

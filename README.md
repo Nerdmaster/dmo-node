@@ -26,6 +26,8 @@ Typical docker stuff:
 - `docker-compose build` will build a local node for you, but this will take
   several minutes, and is very resource-intensive (a small VPS cannot compile
   the app since it needs a ton of RAM)
+- `docker-compose up -d node` to run the node, `docker-compose up -d testnet`
+  to run a testnet node
 
 Make sure you expose port 6432 to the world if you want incoming connections.
 This means using the `ports` directive in your override, and may require
