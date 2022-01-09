@@ -26,3 +26,21 @@ services:
     environment:
       - RPC_USER=user
       - RPC_PASS=123456
+
+  # Want to tinker with the build image? Here's a way to build it on its own!
+  build:
+    image: nerdmaster/dmo-node:build
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: build
+
+  # Build image for testnet since it has slight changes to code
+  testnet-build:
+    image: nerdmaster/dmo-node:testnet-build
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: build
+      args:
+        - IS_TESTNET=true
