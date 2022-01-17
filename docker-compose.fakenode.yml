@@ -1,0 +1,55 @@
+version: '3.8'
+
+volumes:
+  node:
+  node2:
+  node3:
+  node4:
+
+services:
+  # Fully internal testnet node: no communication with real nodes
+  node:
+    image: nerdmaster/dmo-node:testnet
+    command: "-connect=node2:6433 -connect=node3:6433 -connect=node4:6433"
+    environment:
+      - RPC_USER=user
+      - RPC_PASS=123456
+    ports:
+      - '16432:6432'
+      - '16433:6433'
+    volumes:
+      - node:/dynamo/data:rw
+      - ./hash_algo.txt:/dynamo/hash_algo.txt:ro
+    depends_on:
+      - node2
+
+  # More nodes so there are always peers
+  node2:
+    image: nerdmaster/dmo-node:testnet
+    command: "-connect=node:6433 -connect=node3:6433 -connect=node4:6433"
+    environment:
+      - RPC_USER=user
+      - RPC_PASS=123456
+    volumes:
+      - node2:/dynamo/data:rw
+      - ./hash_algo.txt:/dynamo/hash_algo.txt:ro
+
+  node3:
+    image: nerdmaster/dmo-node:testnet
+    command: "-connect=node:6433 -connect=node2:6433 -connect=node4:6433"
+    environment:
+      - RPC_USER=user
+      - RPC_PASS=123456
+    volumes:
+      - node3:/dynamo/data:rw
+      - ./hash_algo.txt:/dynamo/hash_algo.txt:ro
+
+  node4:
+    image: nerdmaster/dmo-node:testnet
+    command: "-connect=node:6433 -connect=node2:6433 -connect=node3:6433"
+    environment:
+      - RPC_USER=user
+      - RPC_PASS=123456
+    volumes:
+      - node4:/dynamo/data:rw
+      - ./hash_algo.txt:/dynamo/hash_algo.txt:ro

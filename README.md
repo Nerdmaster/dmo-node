@@ -49,6 +49,41 @@ And so forth. The container prefixes your flagged command with "dynamo-core",
 and adds various flags to make sure the data dir, config file, etc. are all set
 properly.
 
+## For Testing Miners
+
+It's a pain to solo-test miners, so I've got a docker-compose setup for running
+four fake testnet nodes locally. There's a command, `fake`, that runs
+docker-compose with the proper flags to run that setup much the same as you'd
+run `docker-compose` for normal use. e.g., instead of `docker-compose up`,
+you'd use `./fake up`. For the "cli -getinfo" command, simply enter:
+
+    ./fake exec node cli -getinfo
+
+This makes it easy to test a miner against a functional node without having to
+ask moderators to spin up / reset the testnet. A typical dev/test loop might
+look something like this:
+
+- Start up all four fake nodes: `./fake up -d`
+- Verify nodes: `./fake exec node cli -getinfo`
+- Test a miner - make sure it's getting blocks
+- Maybe watch the "main" fake node's logs: `./fake logs node -f`
+- Reset the chain data (destroy all blocks) when blocks are taking too long or
+  you've got a benchmark to run or something: `./fake down -v`.
+
+A few caveats exist. A "fresh" blockchain will not behave like the real thing.
+Difficulty will be absurdly low, blocks will be generated far faster than on
+the real chain, etc.
+
+If you don't understand how `./fake` runs docker, *go learn more*. You can
+easily mess yourself up playing with this stuff if you don't at least
+understand what the one-liner in `./fake` actually does.
+
+If you don't know much about blockchains, this setup will be fine, but you
+probably aren't going to get much out of it because what you see may not make
+much sense. Coming from the real network to a toally internal testnode can be a
+huge shift. It's a great way to test, but it **will** have some significant
+differences.
+
 ## Security
 
 Do **not** expose port 6433 to anything you don't implicitly trust. Even with a
