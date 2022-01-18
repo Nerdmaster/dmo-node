@@ -19,7 +19,6 @@ services:
       - '16433:6433'
     volumes:
       - node:/dynamo/data:rw
-      - ./hash_algo.txt:/dynamo/hash_algo.txt:ro
     depends_on:
       - node2
 
@@ -32,7 +31,6 @@ services:
       - RPC_PASS=123456
     volumes:
       - node2:/dynamo/data:rw
-      - ./hash_algo.txt:/dynamo/hash_algo.txt:ro
 
   node3:
     image: nerdmaster/dmo-node:testnet
@@ -42,7 +40,6 @@ services:
       - RPC_PASS=123456
     volumes:
       - node3:/dynamo/data:rw
-      - ./hash_algo.txt:/dynamo/hash_algo.txt:ro
 
   node4:
     image: nerdmaster/dmo-node:testnet
@@ -52,4 +49,3 @@ services:
       - RPC_PASS=123456
     volumes:
       - node4:/dynamo/data:rw
-      - ./hash_algo.txt:/dynamo/hash_algo.txt:ro
