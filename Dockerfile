@@ -1,3 +1,8 @@
+FROM golang:1 AS blocknotify-build
+WORKDIR /app
+ADD ./blocknotify.go /app
+RUN go build -o ./blocknotify ./blocknotify.go
+
 FROM ubuntu:bionic AS build
 
 RUN apt-get update -y && apt-get install -y \
@@ -31,6 +36,9 @@ RUN apt-get update -y && apt-get install -y \
   apt-get autoremove -y && \
   apt-get clean && rm -rf /var/lib/apt/lists/* 
 
+RUN touch /var/log/notify.log
+RUN chown dmo:dmo /var/log/notify.log
+
 WORKDIR /dynamo
 COPY --from=build /dynamo/dynamo-core/src/bitcoind /bin/dynamo-core
 COPY --from=build /dynamo/dynamo-core/src/bitcoin-cli /bin/dynamo-cli
@@ -40,6 +48,9 @@ RUN chmod +x /bin/cli
 COPY dynamo.conf /dynamo/dynamo.conf
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+COPY notify.sh /notify.sh
+RUN chmod +x /notify.sh
+COPY --from=blocknotify-build /app/blocknotify /usr/local/bin/blocknotify
 RUN mkdir -p /dynamo/data
 RUN chown -R dmo:dmo /dynamo
 VOLUME /dynamo/data

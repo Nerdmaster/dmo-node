@@ -10,10 +10,18 @@ services:
   # Fully internal testnet node: no communication with real nodes
   node:
     image: nerdmaster/dmo-node:testnet
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        - IS_TESTNET=true
     command: "-connect=node2:6433 -connect=node3:6433 -connect=node4:6433"
     environment:
       - RPC_USER=user
       - RPC_PASS=123456
+      - NOTIFY_RPC=192.168.1.201:4324
+      - NOTIFY_COINID=1
+      - NOTIFY_PASSWORD=tu8tu5
     ports:
       - '16432:6432'
       - '16433:6433'
@@ -21,6 +29,8 @@ services:
       - node:/dynamo/data:rw
     depends_on:
       - node2
+      - node3
+      - node4
 
   # More nodes so there are always peers
   node2:
