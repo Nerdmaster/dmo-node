@@ -7,7 +7,7 @@ volumes:
 services:
   # Mainnet node
   node:
-    image: nerdmaster/dmo-node:1.1.1
+    image: nerdmaster/dmo-node:1.2.1
     container_name: dynamo-node
     build:
       dockerfile: Dockerfile
