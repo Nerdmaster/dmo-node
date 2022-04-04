@@ -21,6 +21,8 @@ services:
       - node:/dynamo/data:rw
     depends_on:
       - node2
+      - node3
+      - node4
 
   # More nodes so there are always peers
   node2:
