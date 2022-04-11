@@ -18,6 +18,10 @@ services:
     # *no* logs for debugging anything.
     #command: "-printtoconsole=0"
 
+    # Uncomment the two lines below to inject a hash file
+    #volumes:
+      #- ./hash_algo.txt:/dynamo/hash_algo.txt
+
   # Testnet settings so you can have a real node and testnet at the same time
   testnet:
     ports:
