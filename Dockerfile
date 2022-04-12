@@ -34,7 +34,7 @@ RUN apt-get update -y && apt-get install -y \
 WORKDIR /dynamo
 COPY --from=build /dynamo/dynamo-core/src/bitcoind /bin/dynamo-core
 COPY --from=build /dynamo/dynamo-core/src/bitcoin-cli /bin/dynamo-cli
-COPY --from=build /dynamo/dynamo-core/build_msvc/bitcoind/hash_algo.txt /dynamo/hash_algo.txt
+COPY hash_algo.txt /dynamo/hash_algo.txt
 COPY cli /bin/ 
 RUN chmod +x /bin/cli
 COPY dynamo.conf /dynamo/dynamo.conf
